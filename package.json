@@ -1,0 +1,35 @@
+{
+  "name": "multi_gas_project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "config": {
+    "srcDir": "dist",
+    "templateDir": ".template"
+  },
+  "scripts": {
+    "create": "npm-run-all -s check checkDir create:*",
+    "check": "if [ -z $npm_config_project ]; then echo \"--projectを指定してください\"; exit 1; fi",
+    "checkDir": "if [ -d $npm_config_project ]; then echo \"すでにprojectが存在します\"; exit 1; fi",
+    "create:rm": "rm -rf $npm_config_project",
+    "create:mkdir": "mkdir $npm_config_project",
+    "create:clasp": "cd $npm_config_project && clasp create --rootDir ./$npm_package_config_srcDir",
+    "create:cpTsFile": "cp $npm_package_config_templateDir/index.ts $npm_config_project/$npm_package_config_srcDir/index.ts",
+    "create:cpClaspIgnore": "cp $npm_package_config_templateDir/.claspignore $npm_config_project/",
+    "create:tslint": "cd $npm_config_project && tslint --init",
+    "push": "npm-run-all -s check push:*",
+    "push:clasp": "cd $npm_config_project && clasp push",
+    "deploy": "npm-run-all -s check deploy:*",
+    "deploy:clasp": "cd $npm_config_project && clasp deploy",
+    "open": "npm-run-all -s check open:*",
+    "open:clasp": "cd $npm_config_project && clasp open"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/clasp": "^2.3.0",
+    "@types/google-apps-script": "^1.0.10",
+    "npm-run-all": "^4.1.5"
+  }
+}
